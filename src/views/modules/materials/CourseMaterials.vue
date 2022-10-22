@@ -7,27 +7,34 @@
       >
         <b-row>
           <b-col
-            cols="7"
+            cols="6"
           >
             <strong>
               Course Materials {{ (selected_subject !== '') ? ' for ' + selected_subject.subject.name : '' }}
             </strong>
           </b-col>
           <b-col
-            cols="5"
+            cols="6"
           >
             <span class="pull-right">
               <el-select
                 v-model="selected_subject_index"
                 placeholder="Select Subject"
+                width="80%"
+                filterable
                 @input="showMaterials()"
               >
-                <el-option
+                <template
                   v-for="(subject_teacher, index) in subject_teachers"
-                  :key="index"
-                  :value="index"
-                  :label="subject_teacher.subject.name + ' (' + subject_teacher.class_teacher.c_class.name + ')'"
-                />
+                >
+                  <el-option
+                    v-if="subject_teacher.class_teacher"
+                    :key="index"
+                    :value="index"
+                    :label="`${subject_teacher.subject.name}  (${(subject_teacher.class_teacher) ? subject_teacher.class_teacher.c_class.name : ''})`"
+                  />
+                </template>
+
               </el-select>
               &nbsp;
               <b-button
@@ -39,7 +46,7 @@
                   icon="PlusIcon"
                   class="mr-50"
                 />
-                <span class="align-middle">Add</span>
+                <span class="align-middle">Create</span>
               </b-button>
             </span>
           </b-col>
@@ -79,9 +86,25 @@
                 <p>
                   <strong>{{ material.title }}</strong><br>
                   <small>{{ material.subject_teacher.subject.name }}</small><br>
-                  <small>{{ material.subject_teacher.class_teacher.c_class.name }}</small><br>
+                  <small>{{ (material.subject_teacher.class_teacher) ? material.subject_teacher.class_teacher.c_class.name : '' }}</small><br>
                 </p>
               </el-link><br>
+              <el-button
+                v-if="material.status === 'active'"
+                type="warning"
+                size="small"
+                @click="changeStatus(material.id, 'inactive')"
+              >
+                Deactivate
+              </el-button>
+              <el-button
+                v-else
+                type="success"
+                size="small"
+                @click="changeStatus(material.id, 'active')"
+              >
+                Activate
+              </el-button>
               <el-button
                 type="danger"
                 size="small"
@@ -221,14 +244,36 @@ export default {
     },
     destroy(id) {
       const app = this
-      const deleteMaterial = new Resource('materials/delete')
-      deleteMaterial.destroy(id)
-        .then(() => {
-          app.showMaterials()
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      const message = 'Are you sure you want to delete this document? Click OK to confirm'
+      // eslint-disable-next-line no-alert
+      if (window.confirm(message)) {
+        const deleteMaterial = new Resource('materials/delete')
+        deleteMaterial.destroy(id)
+          .then(() => {
+            app.showMaterials()
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    changeStatus(materialId, status) {
+      const app = this
+      let message = 'Students will NOT be able to access this resource. Click OK to confirm'
+      if (status === 'active') {
+        message = 'Students will be able to access this resource. Click OK to confirm'
+      }
+      // eslint-disable-next-line no-alert
+      if (window.confirm(message)) {
+        const deleteMaterial = new Resource('materials/change-status')
+        deleteMaterial.update(materialId, { status })
+          .then(() => {
+            app.showMaterials()
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     },
     readMaterial(material) {
       const app = this

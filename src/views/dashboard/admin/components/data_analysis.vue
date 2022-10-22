@@ -6,11 +6,11 @@
       <el-col
         v-for="(item, index) in statistics"
         :key="index"
-        :xs="12"
-        :sm="8"
-        :md="8"
-        :lg="4"
-        :xl="2"
+        :xs="24"
+        :sm="12"
+        :md="6"
+        :lg="6"
+        :xl="6"
       >
         <statistic-card-horizontal
           color="white"
@@ -18,7 +18,7 @@
           :icon="item.icon"
           :statistic="item.statistic"
           :statistic-title="item.title"
-          :custom-style="'border-radius: 1rem'"
+          :custom-style="'border-top-left-radius: 1rem; border-bottom-right-radius: 1rem'"
         />
       </el-col>
     </el-row>
@@ -51,23 +51,35 @@ export default {
       const app = this
       const data = [
         {
-          color: 'primary', icon: 'UserPlusIcon', statistic: app.dashboardData.active_students, title: 'Active Students',
+          color: 'primary', icon: 'UsersIcon', statistic: app.dashboardData.population, title: 'Total Users',
         },
         {
-          color: 'warning', icon: 'UserMinusIcon', statistic: app.dashboardData.suspended_students, title: 'Suspended Students',
+          color: 'success', icon: 'TrendingUpIcon', statistic: app.dashboardData.total_income, title: 'Total Income',
         },
         {
-          color: 'success', icon: 'UserCheckIcon', statistic: app.dashboardData.alumni, title: 'Graduated Students',
+          color: 'warning', icon: 'TrendingDownIcon', statistic: app.dashboardData.total_expenses, title: 'Total Expenses',
         },
         {
-          color: 'danger', icon: 'UserXIcon', statistic: app.dashboardData.withdrawn_students, title: 'Withdrawn Students',
+          color: 'danger', icon: 'CreditCardIcon', statistic: app.dashboardData.total_debts, title: 'Total Debts',
         },
-        {
-          color: 'secondary', icon: 'UsersIcon', statistic: app.dashboardData.totalStaff, title: 'Active Personnel',
-        },
-        {
-          color: 'dark', icon: 'UsersIcon', statistic: app.dashboardData.totalGuardian, title: 'Total Guardians',
-        },
+        // {
+        //   color: 'primary', icon: 'UserPlusIcon', statistic: app.dashboardData.active_students, title: 'Active Students',
+        // },
+        // {
+        //   color: 'warning', icon: 'UserMinusIcon', statistic: app.dashboardData.suspended_students, title: 'Suspended Students',
+        // },
+        // {
+        //   color: 'success', icon: 'UserCheckIcon', statistic: app.dashboardData.alumni, title: 'Graduated Students',
+        // },
+        // {
+        //   color: 'danger', icon: 'UserXIcon', statistic: app.dashboardData.withdrawn_students, title: 'Withdrawn Students',
+        // },
+        // {
+        //   color: 'secondary', icon: 'UsersIcon', statistic: app.dashboardData.totalStaff, title: 'Active Personnel',
+        // },
+        // {
+        //   color: 'dark', icon: 'UsersIcon', statistic: app.dashboardData.totalGuardian, title: 'Total Guardians',
+        // },
       ]
       app.statistics = data
     },

@@ -235,7 +235,7 @@
   </div>
 </template>
 <script>
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import CKEditor from 'ckeditor4-vue'
 import StopWatch from '../StopWatch.vue'
 import Calculator from '../Calculator.vue'
 
@@ -247,7 +247,7 @@ import Resource from '@/api/resource'
 // Quill.register('modules/imageDrop', ImageDrop)
 // Quill.register('modules/imageResize', ImageResize)
 export default {
-  components: { StopWatch, Calculator },
+  components: { StopWatch, Calculator, ckeditor: CKEditor.component },
   props: {
     compiledQuiz: {
       type: Object,
@@ -275,7 +275,7 @@ export default {
       //     imageResize: {}
       //     }
       // },
-      // editor: ClassicEditor,
+      editor: '',
       editorConfig: {
         // The configuration of the editor.
       },

@@ -437,6 +437,7 @@ export default {
       staff_roles: [],
       countries: [],
       selectedCountry: '',
+      defaultCountry: '',
       states: [],
       selectedState: '',
       lgas: [],
@@ -467,6 +468,7 @@ export default {
       fetchCurriculumSetupResource.list()
         .then(response => {
           app.countries = response.countries
+          app.defaultCountry = response.selected_country
           app.staff_roles = response.staff_roles
           app.form.username = response.username
           app.setState()
@@ -474,14 +476,27 @@ export default {
     },
     setState() {
       const app = this
+      const index = app.countries.indexOf(app.selectedCountry)
       app.lgas = []
-      app.states = app.selectedCountry.states
+      app.states = (index > -1) ? app.countries[index].states : app.defaultCountry.states
       app.setLgas()
     },
     setLgas() {
       const app = this
-      app.lgas = app.selectedState.lgas
+      const index = app.states.indexOf(app.selectedState)
+      app.lgas = (index > -1) ? app.states[index].lgas : []
+      // app.lgas = app.selectedState.lgas
     },
+    // setState() {
+    //   const app = this
+    //   app.lgas = []
+    //   app.states = app.selectedCountry.states
+    //   app.setLgas()
+    // },
+    // setLgas() {
+    //   const app = this
+    //   app.lgas = app.selectedState.lgas
+    // },
     formSubmitted() {
       const app = this
       const saveStaffResource = new Resource('user-setup/staff/update')

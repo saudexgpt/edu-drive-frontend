@@ -57,7 +57,7 @@ export default {
       load: false,
     }
   },
-  mounted() {
+  created() {
     this.subjectTeachers()
     //  var timeinterval = setInterval(() => {
     //     this.subjectTeachers();

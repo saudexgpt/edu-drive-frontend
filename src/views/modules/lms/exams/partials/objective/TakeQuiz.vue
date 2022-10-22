@@ -10,7 +10,7 @@
       >
         <h2>PLEASE NOTE THE INSTRUCTION BELOW</h2>
         <legend><font color="brown">
-          <strong>When you start, DO NOT REFRESH THE PAGE. Use the Previous and Next Buttons to Navigate. <br>Click the Preview Button when done to preview before you finally submit.</strong>
+          <strong>When you start, DO NOT REFRESH THE PAGE.<br>Use the <code>Previous</code> and <code>Next</code> Buttons to Navigate. <br>Click the <code>Preview</code> Button when done to preview before you finally submit.</strong>
         </font></legend>
         <p class="red">
           You are permitted to refresh the page only if no question appears
@@ -20,7 +20,7 @@
           @click="start_quiz = true"
         >
           <i class="fa fa-edit fa-5x" />
-          <h1>Click to Start</h1>
+          <h1>CLICK HERE TO START</h1>
         </label>
         <h4>Maximum Time: <i class="fa fa-clock" /> {{ compiledQuiz.duration }} seconds</h4>
       </div>

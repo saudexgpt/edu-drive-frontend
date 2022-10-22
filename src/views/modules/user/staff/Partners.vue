@@ -34,7 +34,7 @@
 import { BTabs, BTab } from 'bootstrap-vue'
 import StaffTable from './partials/CompanyStaffTable.vue'
 import RegisterNewStaff from './partials/RegisterNewCompanyStaff.vue'
-import AssignAccess from './partials/AssignStaffAccess.vue'
+import AssignAccess from '@/views/modules/access-control/partials/AssignStaffAccess.vue'
 
 export default {
   components: {

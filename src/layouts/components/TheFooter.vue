@@ -19,7 +19,7 @@
       <a
         href="#"
         rel="nofollow"
-      ><span>EDU-DRIVE</span></a>
+      ><span>GPL-SALES</span></a>
     </p>
     <span class="md:flex hidden items-center">
       <span>All rights Reserved</span>
@@ -40,7 +40,7 @@ export default {
     },
     title: {
       type: String,
-      default: () => ('EDU-DRIVE'),
+      default: () => ('AKIRS'),
     },
   },
 }

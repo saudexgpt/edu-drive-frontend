@@ -78,11 +78,11 @@
             size="small"
             @click="set_quiz=true"
           ><i class="fa fa-question" /> Set Exam</el-button>
-          <el-button
+          <!-- <el-button
             type="danger"
             size="small"
             @click="option.question_type= 'select'"
-          >Back</el-button>
+          >Back</el-button> -->
         </span>
       </div>
       <div class="box-body">
@@ -138,7 +138,7 @@
   </el-card>
 </template>
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import CKEditor from 'ckeditor4-vue'
 import SetQuiz from './SetQuiz.vue'
 import Resource from '@/api/resource'
 // import { VueEditor, Quill } from 'vue2-editor'
@@ -150,6 +150,7 @@ import Resource from '@/api/resource'
 export default {
   components: {
     SetQuiz,
+    ckeditor: CKEditor.component,
   },
   props: {
     subjectTeacher: {
@@ -193,7 +194,7 @@ export default {
       },
       button_type: 'new',
       edit_question_index: '',
-      editor: ClassicEditor,
+      editor: '',
       editorConfig: {
         // The configuration of the editor.
       },

@@ -2,9 +2,7 @@
   <div>
     <div slot="header">
       <b-row>
-        <b-col
-          cols="7"
-        >
+        <b-col cols="7">
           <h3>
             List of Staff
           </h3>
@@ -24,6 +22,7 @@
             v-model="selected_user_index"
             filterable
             style="width: 100%"
+            placeholder="Select Staff"
             @input="setRolesAndPermissions()"
           >
             <!-- <el-option
@@ -37,7 +36,9 @@
               v-for="(each_staff, index) in staff"
               :key="index"
               :value="index"
-              :label="each_staff.user.first_name + ' ' + each_staff.user.last_name"
+              :label="
+                each_staff.user.first_name + ' ' + each_staff.user.last_name
+              "
             />
           </el-select>
         </el-col>
@@ -53,6 +54,7 @@
             filterable
             collapse-tags
             style="width: 100%"
+            placeholder="Select Roles"
             @change="assignRoles()"
           >
             <el-option
@@ -75,6 +77,7 @@
             filterable
             collapse-tags
             style="width: 100%"
+            placeholder="Select Permissions"
             @change="assignPermissions()"
           >
             <el-option
@@ -129,14 +132,11 @@
           {{ props.row.user.first_name + ' ' + props.row.user.last_name }}
         </div>
       </v-client-table>
-
     </div>
   </div>
 </template>
 <script>
-import {
-  BRow, BCol, VBTooltip,
-} from 'bootstrap-vue'
+import { BRow, BCol, VBTooltip } from 'bootstrap-vue'
 // import vSelect from 'vue-select'
 // import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
@@ -180,17 +180,9 @@ export default {
 
           // id: 'S/N',
         },
-        sortable: [
-          'user.username',
-          'user.last_name',
-          'user.first_name',
-        ],
+        sortable: ['user.username', 'user.last_name', 'user.first_name'],
         // filterable: false,
-        filterable: [
-          'user.username',
-          'user.last_name',
-          'user.first_name',
-        ],
+        filterable: ['user.username', 'user.last_name', 'user.first_name'],
       },
       staff: [],
       staff_roles: [],
@@ -219,28 +211,25 @@ export default {
     fetchStaff() {
       const app = this
       app.loading = true
-      const fetchStaffResource = new Resource('user-setup/staff')
-      fetchStaffResource.list()
-        .then(response => {
-          app.staff = response.staff
-          app.loading = false
-        })
+      const fetchStaffResource = new Resource('partners')
+      fetchStaffResource.list().then(response => {
+        app.staff = response.staff
+        app.loading = false
+      })
     },
     fetchPermissions() {
       const app = this
       const fetchCurriculumSetupResource = new Resource('acl/permissions/index')
-      fetchCurriculumSetupResource.list()
-        .then(response => {
-          app.permissions = response.permissions
-        })
+      fetchCurriculumSetupResource.list().then(response => {
+        app.permissions = response.permissions
+      })
     },
     fetchRoles() {
       const app = this
       const fetchCurriculumSetupResource = new Resource('acl/roles/index')
-      fetchCurriculumSetupResource.list({ option: 'staff' })
-        .then(response => {
-          app.staff_roles = response.roles
-        })
+      fetchCurriculumSetupResource.list({ option: 'staff' }).then(response => {
+        app.staff_roles = response.roles
+      })
     },
     setRolesAndPermissions() {
       const app = this
@@ -262,21 +251,21 @@ export default {
       const userId = app.staff[app.selected_user_index].user.id
       const fetchCurriculumSetupResource = new Resource('acl/roles/assign')
       const param = { user_id: userId, roles: app.new_roles }
-      fetchCurriculumSetupResource.store(param)
-        .then(response => {
-          app.staff[app.selected_user_index].user.roles = response.roles
-          app.staff[app.selected_user_index].user.permissions = response.permissions
-        })
+      fetchCurriculumSetupResource.store(param).then(response => {
+        app.staff[app.selected_user_index].user.roles = response.roles
+        app.staff[app.selected_user_index].user.permissions = response.permissions
+      })
     },
     assignPermissions() {
       const app = this
       const userId = app.staff[app.selected_user_index].user.id
-      const fetchCurriculumSetupResource = new Resource('acl/permissions/assign-user')
+      const fetchCurriculumSetupResource = new Resource(
+        'acl/permissions/assign-user',
+      )
       const param = { user_id: userId, permissions: app.new_permissions }
-      fetchCurriculumSetupResource.store(param)
-        .then(response => {
-          app.staff[app.selected_user_index].user.permissions = response.permissions
-        })
+      fetchCurriculumSetupResource.store(param).then(response => {
+        app.staff[app.selected_user_index].user.permissions = response.permissions
+      })
     },
   },
 }

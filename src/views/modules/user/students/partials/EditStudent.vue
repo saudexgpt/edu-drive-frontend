@@ -732,6 +732,7 @@ export default {
       classes: [],
       countries: [],
       selectedCountry: '',
+      defaultCountry: '',
       states: [],
       selectedState: '',
       lgas: [],
@@ -796,7 +797,7 @@ export default {
       fetchCurriculumSetupResource.list()
         .then(response => {
           app.countries = response.countries
-          app.selectedCountry = response.selected_country
+          app.defaultCountry = response.selected_country
           app.levels = response.levels
           app.form.username = response.parent_username
           app.admission_sessions = response.admission_sessions
@@ -806,13 +807,16 @@ export default {
     },
     setState() {
       const app = this
+      const index = app.countries.indexOf(app.selectedCountry)
       app.lgas = []
-      app.states = app.selectedCountry.states
+      app.states = (index > -1) ? app.countries[index].states : app.defaultCountry.states
       app.setLgas()
     },
     setLgas() {
       const app = this
-      app.lgas = app.selectedState.lgas
+      const index = app.states.indexOf(app.selectedState)
+      app.lgas = (index > -1) ? app.states[index].lgas : []
+      // app.lgas = app.selectedState.lgas
     },
     setClass() {
       const app = this

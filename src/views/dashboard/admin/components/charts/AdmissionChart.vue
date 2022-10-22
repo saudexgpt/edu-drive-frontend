@@ -136,7 +136,7 @@ export default {
             text: 'No. of Students',
           },
           stackLabels: {
-            enabled: true,
+            enabled: false,
             style: {
               fontWeight: 'bold',
               color: 'gray',
@@ -147,7 +147,7 @@ export default {
           column: {
             stacking: 'normal',
             dataLabels: {
-              enabled: true,
+              enabled: false,
               // rotation: 180,
             },
             // borderRadius: 7,

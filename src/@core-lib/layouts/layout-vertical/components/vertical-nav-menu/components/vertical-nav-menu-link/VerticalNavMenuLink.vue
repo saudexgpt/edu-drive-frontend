@@ -13,7 +13,8 @@
       class="d-flex align-items-center"
       :style="'background: ' + school.sidebar_bg + '; border-radius: 20px;'"
     >
-      <feather-icon :icon="item.icon || 'TargetIcon'" />
+      <!-- <feather-icon :icon="item.icon || 'TargetIcon'" /> -->
+      <feather-icon :icon="item.icon || ''" />
       <span class="menu-title text-truncate">{{ t(item.title) }}</span>
       <b-badge
         v-if="item.tag"
@@ -29,7 +30,8 @@
       v-bind="linkProps"
       class="d-flex align-items-center"
     >
-      <feather-icon :icon="item.icon || 'TargetIcon'" />
+      <!-- <feather-icon :icon="item.icon || 'TargetIcon'" /> -->
+      <feather-icon :icon="item.icon || ''" />
       <span class="menu-title text-truncate">{{ t(item.title) }}</span>
       <b-badge
         v-if="item.tag"

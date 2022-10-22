@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="load">
     <div
       v-if="option.question_type == 'select'"
       class="box"
@@ -20,7 +20,7 @@
           <b-card
             class="text-center"
             style="cursor: pointer"
-            @click="option.question_type='objective'"
+            @click="fetchQuestionBank(); option.question_type='objective'"
           >
             <div class="truncate">
               <strong>{{ subjectTeacher.subject.code.toUpperCase() }}</strong>
@@ -45,7 +45,7 @@
           <b-card
             class="text-center"
             style="cursor: pointer"
-            @click="option.question_type='theory'"
+            @click="fetchQuestionBank(); option.question_type='theory'"
           >
             <div class="truncate">
               <strong>{{ subjectTeacher.subject.code.toUpperCase() }}</strong>
@@ -65,13 +65,15 @@
     </div>
     <div v-if="option.question_type=='objective'">
       <obj-questions
-        :subject-teacher="subjectTeacher"
+        v-if="subject_teacher !== ''"
+        :subject-teacher="subject_teacher"
         :option="option"
       />
     </div>
     <div v-if="option.question_type=='theory'">
       <theory-questions
-        :subject-teacher="subjectTeacher"
+        v-if="subject_teacher !== ''"
+        :subject-teacher="subject_teacher"
         :option="option"
       />
     </div>
@@ -81,6 +83,7 @@
 import { BCard } from 'bootstrap-vue'
 import ObjQuestions from './partials/objective/ObjQuestions.vue'
 import TheoryQuestions from './partials/theory/TheoryQuestions.vue'
+import Resource from '@/api/resource'
 
 export default {
   components: {
@@ -98,8 +101,22 @@ export default {
       option: {
         question_type: 'select',
       },
-
+      subject_teacher: '',
+      load: false,
     }
+  },
+  methods: {
+    fetchQuestionBank() {
+      const app = this
+      app.load = true
+      const fetchQuestionBankResource = new Resource('lms/fetch-questions-bank')
+      fetchQuestionBankResource.get(app.subjectTeacher.id) // back end route from web.php
+
+        .then(response => {
+          app.subject_teacher = response.subject_teacher
+          app.load = false
+        })
+    },
   },
 
 }

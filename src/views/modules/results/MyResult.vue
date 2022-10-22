@@ -1,10 +1,11 @@
 <template>
   <div>
     <div v-if="cant_view === false">
-      <el-card>
+      <el-card
+        class="no-print"
+      >
         <div
           slot="header"
-          class="no-print"
         >
           <b-row>
             <b-col

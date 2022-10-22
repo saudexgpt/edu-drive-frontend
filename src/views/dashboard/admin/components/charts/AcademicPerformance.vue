@@ -173,7 +173,7 @@ export default {
         chart: {
           type: 'column',
           inverted: false,
-          height: 800,
+          height: 450,
           options3d: {
             enabled: false,
             alpha: 0,

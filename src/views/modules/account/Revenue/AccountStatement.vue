@@ -229,7 +229,7 @@ export default {
       const { date } = app
       param.from = app.moment(date[0]).format('YYYY-MM-DD')
       param.to = app.moment(date[1]).format('YYYY-MM-DD')
-      const fetchPaymentsResource = new Resource('account/revenue/statement_of-account')
+      const fetchPaymentsResource = new Resource('account/revenue/statement-of-account')
       fetchPaymentsResource.list(param)
         .then(response => {
           app.statements = response.statements

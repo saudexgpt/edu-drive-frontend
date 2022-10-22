@@ -24,13 +24,65 @@
       >
         <div
           slot="child_row"
-          slot-scope="{row}"
+          slot-scope="props"
         >
-          <aside>
+          <div class="pull-right">
+            <b-button
+              v-if="props.row.is_marked === 0"
+              variant="primary"
+              @click="viewStudentResponses(props.row)"
+            >
+              Attempt
+            </b-button>
+            <b-button
+              v-else
+              variant="success"
+              @click="viewStudentResponses(props.row)"
+            >
+              View Remark
+            </b-button>
+          </div>
+          <div style="background: #fdd2cc; padding: 10px; border-radius: 5px">
             <legend>Assignment details</legend>
-            <span v-html="row.assignment_details" />
-          </aside>
-
+            <span v-html="props.row.assignment_details" />
+          </div>
+          <div
+            v-if="modalShow && selected_assignment.id === props.row.id"
+            v-loading="loadModal"
+          >
+            <div
+              v-if="can_edit"
+            >
+              <h4>Type your answer</h4>
+              <quill-editor
+                v-model="selected_assignment.form.student_answer"
+              />
+              <b-button
+                variant="danger"
+                @click="submitAssignment()"
+              >
+                Submit
+              </b-button>
+            </div>
+            <div v-else>
+              <div v-if="selected_assignment.student_assignment !== null">
+                Your Score: <br>
+                <strong>{{ selected_assignment.student_assignment.score }}</strong><br>
+                Teacher's Score:
+                <strong>{{ selected_assignment.student_assignment.remark }}</strong>
+                Your Answer: <br>
+                <span v-html="selected_assignment.student_assignment.student_answer" />
+              </div>
+              <div v-else>
+                <el-alert
+                  :closable="false"
+                  type="error"
+                >
+                  This assignment is awaiting teacher's response
+                </el-alert>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           slot="teacher"
@@ -53,15 +105,23 @@
           class="demo-inline-spacing"
         >
           <b-button
+            v-if="row.is_marked === '0'"
             variant="outline-primary"
             @click="viewStudentResponses(row)"
           >
             Attempt
           </b-button>
+          <b-button
+            v-else
+            variant="outline-success"
+            @click="viewStudentResponses(row)"
+          >
+            View Details
+          </b-button>
         </div>
       </v-client-table>
     </el-card>
-    <b-modal
+    <!-- <b-modal
       v-model="modalShow"
       ok-only
       ok-title="Submit"
@@ -75,19 +135,40 @@
         <div>
           <span v-html="selected_assignment.assignment_details" />
         </div>
-        <div v-loading="loadModal">
+        <div
+          v-if="can_edit"
+          v-loading="loadModal"
+        >
           <h4>Type your answer</h4>
           <quill-editor
             v-model="form.student_answer"
           />
         </div>
+        <div v-else>
+          <div v-if="student_assignment !== null">
+            Your Score: <br>
+            <strong>{{ student_assignment.score }}</strong><br>
+            Teacher's Score:
+            <strong>{{ student_assignment.remark }}</strong>
+            Your Answer: <br>
+            <span v-html="student_assignment.student_answer" />
+          </div>
+          <div v-else>
+            <el-alert
+              :closable="false"
+              type="error"
+            >
+              This assignment is awaiting teacher's response
+            </el-alert>
+          </div>
+        </div>
       </b-card-text>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 <script>
 import {
-  BAlert, BButton, BModal, BCardText,
+  BAlert, BButton,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import moment from 'moment'
@@ -103,7 +184,7 @@ import Resource from '@/api/resource'
 
 export default {
   components: {
-    BAlert, BButton, BModal, BCardText, quillEditor,
+    BAlert, BButton, quillEditor,
   },
   directives: {
     Ripple,
@@ -118,7 +199,7 @@ export default {
         'teacher',
         'created_at',
         'deadline',
-        'action',
+        // 'action',
       ],
 
       options: {
@@ -134,13 +215,18 @@ export default {
         filterable: [],
       },
       load: false,
-      selected_assignment: '',
       modalShow: false,
       loadModal: false,
       form: {
         student_answer: '',
       },
-      student_assignment: '',
+      selected_assignment: {
+        form: {
+          student_answer: '',
+        },
+        student_assignment: '',
+      },
+      can_edit: false,
     }
   },
   created() {
@@ -149,13 +235,16 @@ export default {
   methods: {
     moment,
     viewStudentResponses(selectedAssignment) {
-      this.selected_assignment = selectedAssignment
       const app = this
+      app.selected_assignment = selectedAssignment
+      app.selected_assignment.form = { student_answer: '' }
+      app.selected_assignment.student_assignment = ''
       app.loadModal = true
       const fetchTeacherSubjectResource = new Resource('assignment/student/answer')
       fetchTeacherSubjectResource.get(selectedAssignment.id).then(response => {
-        app.student_assignment = response.assignment_to_tackle
-        app.form.student_answer = (app.student_assignment) ? app.student_assignment.student_answer : ''
+        app.can_edit = response.can_edit
+        app.selected_assignment.student_assignment = response.assignment_to_tackle
+        app.selected_assignment.form.student_answer = (app.selected_assignment.student_assignment) ? app.selected_assignment.student_assignment.student_answer : ''
         app.loadModal = false
       })
       this.modalShow = true
@@ -165,7 +254,7 @@ export default {
       const fetchTeacherSubjectResource = new Resource('assignment/student/assignments/tackle')
       const param = {
         assignment_id: app.selected_assignment.id,
-        student_answer: app.form.student_answer,
+        student_answer: app.selected_assignment.form.student_answer,
 
       }
       app.loadModal = true
@@ -201,6 +290,13 @@ export default {
           app.fetchAssignments()
         })
       }
+    },
+    hasExpired(date) {
+      const today = new Date()
+      if (date < today) {
+        return true
+      }
+      return false
     },
   },
 }

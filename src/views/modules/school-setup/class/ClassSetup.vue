@@ -64,12 +64,16 @@
           style="width: 250px"
           @change="assignPcTeacher(props, $event)"
         >
-          <el-option
+          <template
             v-for="(each_staff, index) in staff"
-            :key="index"
-            :label="each_staff.user.first_name + ' ' + each_staff.user.last_name"
-            :value="each_staff.id"
-          />
+          >
+            <el-option
+              v-if="each_staff.user"
+              :key="index"
+              :label="each_staff.user.first_name + ' ' + each_staff.user.last_name"
+              :value="each_staff.id"
+            />
+          </template>
         </el-select>
       </div>
       <div
@@ -83,13 +87,14 @@
         >
           <feather-icon icon="EditIcon" />
         </b-button>
-        <!-- <b-button
+        <b-button
+          v-if="props.row.first_student_in_class === null"
           variant="gradient-danger"
           class="btn-icon rounded-circle"
           @click="confirmDelete(props.row)"
         >
           <feather-icon icon="TrashIcon" />
-        </b-button> -->
+        </b-button>
       </div>
     </v-client-table>
     <create-class
@@ -153,7 +158,7 @@ export default {
         headings: {
           'level.level': 'Level',
           'c_class.name': 'Class Name',
-          staff: 'PC-Teacher (pick to change)',
+          staff: 'Assigned Teacher (pick to change)',
           // assign: 'Assign TO',
           action: '',
 
@@ -252,8 +257,8 @@ export default {
       const app = this
       const deleteCurriculumSetupResource = new Resource('school-setup/class/destroy')
       deleteCurriculumSetupResource.destroy(cClass.id)
-        .then(response => {
-          app.updateTable(response.classes)
+        .then(() => {
+          app.fetchClasses()
         })
     },
   },

@@ -15,6 +15,13 @@ export default [
     },
     children: [
       {
+        title: 'Manage PINs',
+        route: 'registration-pins',
+        acl: {
+          permissions: ['can manage registration pins'],
+        },
+      },
+      {
         title: 'Manage Level',
         route: 'level-setup',
         acl: {

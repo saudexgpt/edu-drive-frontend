@@ -14,7 +14,7 @@
       <template #default="{ hide }">
         <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
           <h5 class="mb-0">
-            Edit {{selectedFeeSettings.term.name }} Term Fees for {{ selectedFeeSettings.level.level }}
+            Edit {{ SselectedFeeSettings.term.name }} Term Fees for {{ selectedFeeSettings.level.level }}
           </h5>
           <div>
             <b-button

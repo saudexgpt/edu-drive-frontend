@@ -35,7 +35,7 @@
 
             <!-- Logo & Text -->
             <li
-              v-if="school !== undefined"
+              v-if="school !== undefined && school !== null && school !== ''"
               class="nav-item mr-auto"
             >
               <b-link
@@ -64,7 +64,7 @@
                     align="center"
                     :src="appLogoImage"
                     alt="logo"
-                    width="150"
+                    width="200"
                   >
                 </div>
               </b-link>
@@ -154,7 +154,7 @@ export default {
     provide('isMouseHovered', isMouseHovered)
 
     const perfectScrollbarSettings = {
-      maxScrollbarLength: 60,
+      maxScrollbarLength: 100,
       wheelPropagation: true,
     }
 

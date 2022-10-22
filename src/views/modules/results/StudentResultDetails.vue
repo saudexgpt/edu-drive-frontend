@@ -24,8 +24,14 @@
                 align="center"
               >
                 <img
-                  v-if="fetched_data.result_settings.logo !== null"
                   :src="baseServerUrl +'storage/'+fetched_data.school.logo"
+                  alt="School LOGO"
+                  class="img-polaroid"
+                  width="200"
+                >
+                <!--<img
+                  v-if="fetched_data.result_settings.logo !== null"
+                  :src="baseServerUrl +'storage/'+fetched_data.result_settings.logo"
                   alt="School LOGO"
                   class="img-polaroid"
                   width="200"
@@ -36,7 +42,8 @@
                   alt="School LOGO"
                   class="img-polaroid"
                   width="200"
-                ><br>
+                >-->
+                <br>
                 <strong v-if="fetched_data.result_settings.display_school_name_on_result === 'yes'">{{ fetched_data.school.name.toUpperCase() }}</strong><br>
                 <small v-if="fetched_data.result_settings.display_school_address_on_result === 'yes'">{{ fetched_data.school.address }}</small>
               </td>
@@ -66,8 +73,8 @@
                   alt="Student Photo"
                   class="img-polaroid"
                   width="80"
+                  onerror="this.src='/images/profile-image.png'"
                 >
-
               </td>
 
             </tr>
@@ -306,6 +313,12 @@ export default {
 @media print {
   table{
     font-size: 10px;
+  }
+  .el-col-lg-5 {
+    width: 20.83333% !important;
+  }
+  .el-col-lg-19 {
+    width: 79.16667% !important;
   }
 }
 </style>

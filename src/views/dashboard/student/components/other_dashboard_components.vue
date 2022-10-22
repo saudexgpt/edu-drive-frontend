@@ -11,7 +11,7 @@
         <assignments />
         <student-routine />
         <br>
-        <timeline />
+        <timeline :title="Timeline" />
       </el-col>
 
       <el-col
@@ -118,16 +118,20 @@
 <script>
 import {
   BCard,
+  BCardBody,
+  BCol,
   BBadge,
   BAvatar,
 } from 'bootstrap-vue'
 import StudentRoutine from '@/views/modules/time-table/StudentRoutine.vue'
-import Timeline from '@/views/modules/user/Timeline.vue'
+import Timeline from '@/views/modules/Notifications.vue'
 import Assignments from './Assignments.vue'
 
 export default {
   components: {
     BCard,
+    BCardBody,
+    BCol,
     BAvatar,
     BBadge,
     StudentRoutine,

@@ -5,6 +5,15 @@
     :style="customStyle"
   >
     <b-card-body class="d-flex justify-content-between align-items-center">
+      <b-avatar
+        :variant="`light-${color}`"
+        size="35"
+      >
+        <feather-icon
+          size="20"
+          :icon="icon"
+        />
+      </b-avatar>
       <div class="truncate">
         <h2
           class="mb-25 font-weight-bolder"
@@ -14,15 +23,6 @@
         </h2>
         <span :style="'color: ' + color">{{ statisticTitle }}</span>
       </div>
-      <b-avatar
-        :variant="`light-${color}`"
-        size="45"
-      >
-        <feather-icon
-          size="21"
-          :icon="icon"
-        />
-      </b-avatar>
     </b-card-body>
   </b-card>
 </template>

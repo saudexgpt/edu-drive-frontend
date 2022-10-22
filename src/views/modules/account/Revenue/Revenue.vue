@@ -2,13 +2,13 @@
   <el-card>
     <b-tabs content-class="mt-1">
       <!-- This tabs content will always be mounted -->
-      <b-tab lazy>
+      <!-- <b-tab lazy>
         <template #title>
           <feather-icon icon="CreditCardIcon" />
           <span>Income & Expenses</span>
         </template>
         <income-expenses />
-      </b-tab>
+      </b-tab> -->
       <!-- This tabs content will not be mounted until the tab is shown -->
       <!-- and will be un-mounted when hidden -->
       <b-tab v-if="checkPermission(['can view account statement'])">
@@ -17,6 +17,18 @@
           <span>Statement of Account</span>
         </template>
         <account-statement />
+      </b-tab>
+      <b-tab v-if="checkPermission(['can view account statement'])">
+        <template #title>
+          <feather-icon icon="BarChartIcon" />
+          <span>Debtors List</span>
+        </template>
+        <debtors
+          v-if="sessions.length > 0"
+          type="Debtors"
+          :sessions="sessions"
+          :terms="terms"
+        />
       </b-tab>
       <b-tab v-if="checkPermission(['can view account statement'])">
         <template #title>
@@ -29,18 +41,6 @@
           :sessions="sessions"
         />
       </b-tab>
-      <b-tab v-if="checkPermission(['can view account statement'])">
-        <template #title>
-          <feather-icon icon="BarChartIcon" />
-          <span>Debtors Chart</span>
-        </template>
-        <debtors
-          v-if="sessions.length > 0"
-          type="Debtors"
-          :sessions="sessions"
-          :terms="terms"
-        />
-      </b-tab>
     </b-tabs>
   </el-card>
 </template>
@@ -51,17 +51,18 @@ import {
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import checkPermission from '@/utils/permission'
-import IncomeExpenses from './IncomeExpenses.vue'
+// import IncomeExpenses from './IncomeExpenses.vue'
 import AccountStatement from './AccountStatement.vue'
 import Revenue from '@/views/dashboard/admin/components/charts/Revenue.vue'
-import Debtors from '@/views/dashboard/admin/components/charts/Debtors.vue'
+// import Debtors from '@/views/dashboard/admin/components/charts/Debtors.vue'
+import Debtors from './Debtors.vue'
 import Resource from '@/api/resource'
 
 export default {
   components: {
     BTabs,
     BTab,
-    IncomeExpenses,
+    // IncomeExpenses,
     AccountStatement,
     Revenue,
     Debtors,

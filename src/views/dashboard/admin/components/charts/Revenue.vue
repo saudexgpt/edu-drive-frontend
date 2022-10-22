@@ -122,7 +122,7 @@ export default {
       revenueReport: {
         chartOptions: {
           chart: {
-            stacked: true,
+            stacked: false,
             type: 'bar',
             toolbar: { show: false },
           },

@@ -1,75 +1,76 @@
 <template>
   <div v-if="staff">
-    <el-row
+    <b-row
+      class="match-height"
       :gutter="10"
     >
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="12"
-        :xl="12"
+      <b-col
+        :xs="12"
+        :sm="12"
+        :md="6"
+        :lg="6"
+        :xl="6"
       >
         <analytics-congratulation
           :data="staff.user"
         />
-      </el-col>
-      <el-col
+        <b-row
+          class="match-height"
+          :gutter="10"
+        >
+          <b-col
+            :xs="12"
+            :sm="12"
+            :md="6"
+            :lg="6"
+            :xl="6"
+          >
+            <router-link :to="{ name: 'TeacherClasses'}">
+              <statistic-card-horizontal
+                color="warning"
+                icon="UsersIcon"
+                :statistic="class_teachers.length"
+                statistic-title="No. of Class(es)"
+              />
+            </router-link>
+          </b-col>
+          <b-col
+            :xs="12"
+            :sm="12"
+            :md="6"
+            :lg="6"
+            :xl="6"
+          >
+            <router-link :to="{ name: 'TeacherSubjects'}">
+              <statistic-card-horizontal
+                color="primary"
+                icon="BookIcon"
+                :statistic="subject_teachers.length"
+                statistic-title="No. of Subject(s)"
+              />
+            </router-link>
+          </b-col></b-row>
+      </b-col>
+      <b-col
         :xs="12"
         :sm="12"
         :md="6"
         :lg="6"
         :xl="6"
-      >
-        <router-link :to="{ name: 'TeacherClasses'}">
-          <statistic-card-horizontal
-            color="warning"
-            icon="UsersIcon"
-            :statistic="class_teachers.length"
-            statistic-title="No. of Class(es)"
-          />
-        </router-link>
-      </el-col>
-      <el-col
-        :xs="12"
-        :sm="12"
-        :md="6"
-        :lg="6"
-        :xl="6"
-      >
-        <router-link :to="{ name: 'TeacherSubjects'}">
-          <statistic-card-horizontal
-            color="primary"
-            icon="BookIcon"
-            :statistic="subject_teachers.length"
-            statistic-title="No. of Subject(s)"
-          />
-        </router-link>
-      </el-col>
-    </el-row>
-    <el-row
-      :gutter="10"
-    >
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="24"
-        :lg="24"
-        :xl="24"
       >
         <subject-performance-report />
-      </el-col>
-    </el-row>
-    <el-row
+      </b-col>
+    </b-row>
+    <b-row
+      class="match-height"
       :gutter="5"
-      class="panel-group"
     >
-      <el-col
-        :lg="12"
-        :xl="12"
-        :md="12"
-        :sm="12"
-        :xs="24"
+      <b-col
+        :lg="6"
+        :xl="6"
+        :md="6"
+        :sm="6"
+        :xs="12"
       >
         <!-- <el-card>
           <div slot="header">
@@ -95,25 +96,25 @@
             </div>
           </v-client-table>
         </el-card> -->
-        <teacher-routine />
-      </el-col>
-      <el-col
-        :lg="12"
-        :xl="12"
-        :md="12"
-        :sm="12"
-        :xs="24"
+        <teacher-routine view-type="time-table" />
+      </b-col>
+      <b-col
+        :lg="6"
+        :xl="6"
+        :md="6"
+        :sm="6"
+        :xs="12"
       >
         <timeline />
-      </el-col>
+      </b-col>
       <!-- <highcharts :options="chart_analytics" /> -->
-    </el-row>
+    </b-row>
   </div>
 </template>
 
 <script>
 import {
-// BImg, BCardText,
+  BRow, BCol,
 } from 'bootstrap-vue'
 import StatisticCardHorizontal from '@core/components/statistics-cards/StatisticCardHorizontal.vue'
 // import StatisticCardWithAreaChart from '@core/components/statistics-cards/StatisticCardWithAreaChart.vue'
@@ -129,7 +130,7 @@ const dataAnalysisResource = new Resource('dashboard/teacher')
 
 export default {
   components: {
-    /* BCard, BImg,  BImg, BCardText, StatisticCardHorizontal,  StatisticCardWithAreaChart, */StatisticCardHorizontal, SubjectPerformanceReport, AnalyticsCongratulation, TeacherRoutine, Timeline,
+    BRow, BCol, StatisticCardHorizontal, SubjectPerformanceReport, AnalyticsCongratulation, TeacherRoutine, Timeline,
   },
   data() {
     return {
