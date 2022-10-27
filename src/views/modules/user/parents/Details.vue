@@ -77,28 +77,34 @@
                 {{ (guardian_student.student.my_classes.length > 0) ? guardian_student.student.my_classes[0].class_teacher.c_class.name : '' }}
               </h6>
               <hr class="mb-2">
-              <router-link
-                :to="{name: 'studentDetails', params: {id: guardian_student.student_id}}"
-              >
-                <el-button
-                  type="primary"
-                  round
-                  size="small"
+              <div v-if="guardian_student.student.studentship_status === 'active'">
+
+                <router-link
+                  :to="{name: 'studentDetails', params: {id: guardian_student.student_id}}"
                 >
-                  BioData
-                </el-button>
-              </router-link>
-              <router-link
-                :to="{name: 'MyWardResult', params: {student_id: guardian_student.student_id}}"
-              >
-                <el-button
-                  type="success"
-                  round
-                  size="small"
+                  <el-button
+                    type="primary"
+                    round
+                    size="small"
+                  >
+                    BioData
+                  </el-button>
+                </router-link>
+                <router-link
+                  :to="{name: 'MyWardResult', params: {student_id: guardian_student.student_id}}"
                 >
-                  Check Result
-                </el-button>
-              </router-link>
+                  <el-button
+                    type="success"
+                    round
+                    size="small"
+                  >
+                    Check Result
+                  </el-button>
+                </router-link>
+              </div>
+              <div v-else>
+                {{ guardian_student.student.studentship_status.toUpperCase() }}
+              </div>
             </b-card>
           </b-col>
         <!-- <b-col
