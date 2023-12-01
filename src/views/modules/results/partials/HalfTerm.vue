@@ -63,13 +63,16 @@
           >
             <template v-if="student_result.total">
               <td>{{ student_result.subject_teacher.subject.name }}</td>
-              <td>{{ student_result.total }}</td>
-              <td
+              <td><strong>{{ student_result.total }}</strong></td>
+              <td>
+                {{ student_result.result_grade }}
+              </td>
+              <!-- <td
                 v-if="fetchData.result_settings.display_grade === 'yes'"
                 :style="'background:'+student_result.color+'; color: #000;'"
               >
                 {{ student_result.result_grade }}
-              </td>
+              </td> -->
               <td v-if="fetchData.result_settings.display_highest_score === 'yes'">
                 {{ (student_result.total) ? student_result.subject_highest_score : '' }}
               </td>
@@ -87,20 +90,28 @@
             </template>
           </tr>
           <tr>
-            <th>Class Teacher's Remark:</th>
-            <th colspan="9">
+            <td>Class Teacher's Remark:</td>
+            <td colspan="6">
               <div v-if="fetchData.student_remark">
                 {{ fetchData.student_remark.class_teacher_remark }}
               </div>
-            </th>
+            </td>
+            <td rowspan="2">
+              <img
+                :src="baseServerUrl +'storage/'+fetchData.result_settings.head_teacher_stamp"
+                alt="HEAD TEACHER STAMP"
+                class="img-polaroid"
+                width="150"
+              >
+            </td>
           </tr>
           <tr>
-            <th>Principal's Comment:</th>
-            <th colspan="9">
+            <td>Principal's Comment:</td>
+            <td colspan="6">
               <div v-if="fetchData.student_remark">
                 {{ fetchData.student_remark.head_teacher_remark }}
               </div>
-            </th>
+            </td>
           </tr>
         </tbody>
         <tbody v-else>

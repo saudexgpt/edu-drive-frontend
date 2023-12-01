@@ -150,12 +150,12 @@
     </b-sidebar>
     <!--SIDEBAR MODAL-->
     <div v-if="show_table">
-      <el-button
+      <!-- <el-button
         v-if="studentData"
         @click="normalizeResult()"
       >
         Normalize
-      </el-button>
+      </el-button> -->
       <subject-students-table
         :student-data="studentData"
         :form="form"

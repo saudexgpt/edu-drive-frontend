@@ -87,7 +87,15 @@
               >
                 <td>{{ rankResult(student_in_class.student_result.average, broadSheetData.result_averages, 'serial_number') }}</td>
                 <td class="solid-border">
-                  {{ student_in_class.student.user.first_name +' '+student_in_class.student.user.last_name }}
+                  <!-- {{ student_in_class.student.user.first_name +' '+student_in_class.student.user.last_name }} -->
+                  <b-avatar
+                    :src="baseServerUrl +'storage/'+student_in_class.student.user.photo"
+                    variant="light-primary"
+                    :text="avatarText(student_in_class.student.user.first_name +' ' + student_in_class.student.user.last_name)"
+                    size="60px"
+                    rounded
+                  /><br>
+                  <small>{{ student_in_class.student.user.first_name +' '+student_in_class.student.user.last_name }}</small>
                 </td>
                 <td>
                   {{ student_in_class.student.registration_no }}
@@ -149,7 +157,7 @@
 </template>
 <script>
 import {
-  BFormGroup, BFormInput,
+  BFormGroup, BFormInput, BAvatar,
 } from 'bootstrap-vue'
 import Resource from '@/api/resource'
 import Helper from '@/api/helper'
@@ -158,7 +166,7 @@ const loadHelper = new Helper()
 const giveStudentRemark = new Resource('result/give-student-remark')
 // const fetchResultComment = new Resource('result/get-result-comment')
 export default {
-  components: { BFormGroup, BFormInput },
+  components: { BAvatar, BFormGroup, BFormInput },
   props: {
     broadSheetData: {
       type: Object,

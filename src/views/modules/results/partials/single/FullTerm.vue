@@ -41,7 +41,7 @@
       >
         {{ props.row.registration_no }}
       </template> -->
-      <template
+      <div
         slot="student"
         slot-scope="props"
         aria-sort="ascending"
@@ -51,7 +51,7 @@
             :src="baseServerUrl +'storage/'+props.row.user.photo"
             variant="light-primary"
             :text="avatarText(props.row.user.first_name +' ' + props.row.user.last_name)"
-            size="30px"
+            size="60px"
             rounded
           />
           <br>
@@ -59,7 +59,7 @@
           <br>
           <small>{{ props.row.registration_no }}</small>
         </div>
-      </template>
+      </div>
       <template
         slot="midterm_to_ca"
         slot-scope="props"

@@ -37,6 +37,7 @@
     <div v-if="result_setting !== ''">
       <result-settings-details
         :result-setting="result_setting"
+        @reload="fetchResultSettings"
       />
     </div>
     <!-- <div v-else>

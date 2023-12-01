@@ -134,7 +134,7 @@
                   >
                     {{ student_result.result_grade }}
                   </td> -->
-                  <td>{{ student_result.total }}</td>
+                  <td><strong>{{ student_result.total }}</strong></td>
                   <td v-if="fetchData.result_settings.display_grade === 'yes'">
                     {{ student_result.result_grade }}
                   </td>
@@ -168,15 +168,23 @@
               </tr>
               <tr>
                 <th>Class Teacher's Remark:</th>
-                <th colspan="9">
+                <th colspan="8">
                   <div v-if="fetchData.student_remark">
                     {{ fetchData.student_remark.class_teacher_remark }}
                   </div>
                 </th>
+                <th rowspan="2">
+                  <img
+                    :src="baseServerUrl +'storage/'+fetchData.result_settings.head_teacher_stamp"
+                    alt="HEAD TEACHER STAMP"
+                    class="img-polaroid"
+                    width="150"
+                  >
+                </th>
               </tr>
               <tr>
                 <th>Principal's Comment:</th>
-                <th colspan="9">
+                <th colspan="8">
                   <div v-if="fetchData.student_remark">
                     {{ fetchData.student_remark.head_teacher_remark }}
                   </div>

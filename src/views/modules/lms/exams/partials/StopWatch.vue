@@ -107,6 +107,7 @@ export default {
       minutes: 0,
       seconds: 0,
       timeup: false,
+      timeInterval: null,
     }
   },
   created() {
@@ -114,6 +115,9 @@ export default {
     // this.countDownTimer()
     // $time_frame;//new Date("<?=$time_frame;?>").getTime()
     setTimeout(app.initializeClock(), 1000)
+  },
+  beforeDestroy() {
+    clearInterval(this.timeInterval)
   },
   methods: {
 
@@ -124,16 +128,18 @@ export default {
       let deadline = app.quizAttempt.remaining_time
       // app.updateClock(deadline);
 
-      const timeinterval = setInterval(() => {
+      this.timeInterval = setInterval(() => {
         if (deadline > 0) {
           deadline -= 1
           app.updateClock(deadline)
           // eslint-disable-next-line no-plusplus
           app.updateInterval++
+        } else {
+          clearInterval(app.timeInterval)
         }
       }, 1000)
 
-      console.log(timeinterval)
+      // console.log(timeinterval)
 
       // var timeinterval = setInterval(
       //                     this.updateClock(endtime), 1000);
@@ -157,7 +163,7 @@ export default {
         app.updateQuizRemainingTime(deadline)
         app.timeup = true
         app.$emit('timeup', app.timeup)
-        // clearInterval(timeinterval);
+        clearInterval(app.timeInterval)
         // loadAjax('stop_watch_with_includes.php','#clock','#flashDiv','TIME UP!!!');
         // var message = 'Time_up';
         // preview(edit);

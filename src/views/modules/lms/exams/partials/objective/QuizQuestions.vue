@@ -222,7 +222,21 @@
 
         </div>
       </div>
+      <hr>
+      <div
+        class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+        style="overflow: auto"
+      >
+        <legend>Navigate Questions</legend>
 
+        <a
+          v-for="(quiz, index) in answers"
+          :id="'quest_button_'+index"
+          :key="index"
+          style="cursor:pointer; font-size: 20px; border-radius: 4px; background-color: #ccc; color: #fff; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;"
+          @click="change(index);"
+        >{{ index+1 }}</a>
+      </div>
     </el-col>
     <el-col
       v-if="!submitted"
@@ -243,16 +257,6 @@
 
       </div>
       <aside>
-        <legend>Navigate Questions</legend>
-
-        <a
-          v-for="(quiz, index) in answers"
-          :id="'quest_button_'+index"
-          :key="index"
-          style="cursor:pointer; font-size: 20px; border-radius: 4px; background-color: #ccc; color: #fff; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;"
-          @click="change(index);"
-        >{{ index+1 }}</a>
-        <hr>
         <a
           v-if="!show_calculator"
           style="font-size: 20px;"
@@ -458,13 +462,26 @@ export default {
       app.loader = true
       const submitQuizResource = new Resource('lms/submit-quiz-answers')
       app.quiz_attempt.remaining_time = 0
-      const formData = app.answers
+
+      const formData = []
+      app.answers.forEach(answer => {
+        const ans = {
+          id: answer.id,
+          student_answer: answer.student_answer,
+          correct_answer: answer.question.answer,
+          quiz_attempt_id: answer.quiz_attempt_id,
+        }
+        formData.push(ans)
+      })
       // console.log(formData)
       submitQuizResource.store(formData) // back end route from web.php
 
         .then(response => {
           app.submit_response = response
           app.submitted = true
+          app.loader = false
+        }).catch(() => {
+          app.$alert('An Error Occured. Try Again')
           app.loader = false
         })
     },

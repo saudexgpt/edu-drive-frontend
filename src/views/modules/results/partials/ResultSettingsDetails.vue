@@ -479,6 +479,25 @@
           </th>
         </tr>
         <tr>
+          <th>
+            Head of School Stamp
+          </th>
+          <th>
+            <img
+              align="center"
+              :src="baseServerUrl +'storage/'+ resultSettingForm.head_teacher_stamp"
+              alt="Result Logo"
+              width="150"
+            ><br>
+            <label>Upload Custom Stamp</label>
+            <input
+              type="file"
+              class="form-control"
+              @change="onImageChange2"
+            >
+          </th>
+        </tr>
+        <tr>
           <th />
           <th><el-button
             type="primary"
@@ -510,6 +529,7 @@ export default {
       },
       load: false,
       logoToBeUploaded: '',
+      stampToBeUploaded: '',
     }
   },
   computed: {
@@ -527,6 +547,12 @@ export default {
       // console.log(e)
       // eslint-disable-next-line prefer-destructuring
       app.logoToBeUploaded = e.target.files[0]
+    },
+    onImageChange2(e) {
+      const app = this
+      // console.log(e)
+      // eslint-disable-next-line prefer-destructuring
+      app.stampToBeUploaded = e.target.files[0]
     },
     setExamLimit() {
       const app = this
@@ -556,10 +582,11 @@ export default {
       const param = app.resultSettingForm
       let formData = app.resultSettingForm
 
-      if (app.logoToBeUploaded !== '') {
+      if (app.logoToBeUploaded !== '' || app.stampToBeUploaded !== '') {
         formData = new FormData()
         formData.append('id', param.id)
         formData.append('result_logo', app.logoToBeUploaded)
+        formData.append('head_teacher_stamp', app.stampToBeUploaded)
         formData.append('no_of_ca', param.no_of_ca)
         formData.append('ca1', param.ca1)
         formData.append('ca2', param.ca2)
@@ -593,6 +620,7 @@ export default {
           app.resultSettingForm = response.result_setting
           app.load = false
           app.$message('Update Successful')
+          app.$emit('reload')
         })
         .catch(error => {
           app.load = false
