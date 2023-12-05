@@ -158,6 +158,7 @@
 import {
   BFormGroup, BFormInput, BAvatar,
 } from 'bootstrap-vue'
+import { avatarText } from '@core/utils/filter'
 import Resource from '@/api/resource'
 import Helper from '@/api/helper'
 
@@ -182,6 +183,11 @@ export default {
       filtered_students_in_class: [],
     }
   },
+  computed: {
+    baseServerUrl() {
+      return this.$store.getters.baseServerUrl
+    },
+  },
   created() {
     // this.fetchBroadSheet()
     this.filtered_students_in_class = this.broadSheetData.students_in_class
@@ -189,6 +195,7 @@ export default {
     // this.sortTable(3 + this.broadSheetData.result_subjects.length)
   },
   methods: {
+    avatarText,
     giveRemark(remark, studentId, remarkBy) {
       const app = this
       const param = {

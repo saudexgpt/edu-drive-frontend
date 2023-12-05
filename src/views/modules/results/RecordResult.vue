@@ -213,7 +213,11 @@ export default {
       display_label: '',
     }
   },
-
+  computed: {
+    school() {
+      return this.$store.getters.userData.school
+    },
+  },
   created() {
     this.setSelectionOptions()
   },
@@ -227,6 +231,9 @@ export default {
           app.sessions = response.sessions
           app.terms = response.terms
           app.subject_teachers = response.subject_teachers
+
+          app.form.sess_id = app.school.current_session.id
+          app.form.term_id = app.school.current_term.id
         })
         .catch(error => {
           app.load = false

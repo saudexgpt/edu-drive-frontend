@@ -45,26 +45,33 @@
                 <br>
                 <strong v-if="fetched_data.result_settings.display_school_name_on_result === 'yes'">{{ fetched_data.school.name.toUpperCase() }}</strong><br>
                 <small v-if="fetched_data.result_settings.display_school_address_on_result === 'yes'">{{ fetched_data.school.address }}</small>
-                <div
+                <!-- <div
                   align="center"
                   class="report"
                 >
                   <h3>{{ ucWords(fetched_data.term_spec) }} Term Report Sheet</h3>
+                </div> -->
+                <div
+                  align="center"
+                  class="report"
+                >
+                  <h3>RECORD OF ACHIEVEMENT</h3>
+                  <em v-if="fetched_data.term_spec === 'half'">Mid Term</em><br>
+                  <h4><strong>{{ fetched_data.this_term.name }} Term, {{ fetched_data.this_session.name }}</strong></h4>
                 </div>
               </td>
-
             </tr>
-            <!-- <tr>
+            <tr>
               <td colspan="10">
                 <div
                   align="center"
                   class="report"
                 >
-                  <h3>{{ ucWords(fetched_data.term_spec) }} Term Report Sheet</h3>
+                  <strong>LEARNER INFORMATION</strong>
                 </div>
               </td>
 
-            </tr> -->
+            </tr>
             <tr>
               <td
                 rowspan="3"
@@ -74,37 +81,42 @@
                   :src="baseServerUrl+'storage/'+fetched_data.student_in_class.student.user.photo"
                   alt="Student Photo"
                   class="img-polaroid"
-                  width="80"
+                  width="100"
                   onerror="this.src='/images/profile-image.png'"
                 >
+                <div v-if="fetched_data.result_settings.display_student_position === 'yes'">
+                  <strong>POSITION: {{ fetched_data.position }}</strong>
+                </div>
               </td>
-              <td colspan="3">
+              <td>
                 <strong>NAME: </strong> {{ fetched_data.student_in_class.student.user.last_name +', '+fetched_data.student_in_class.student.user.first_name }}
               </td>
-              <td colspan="3">
-                <strong>ID: </strong>{{ fetched_data.student_in_class.student.registration_no }}
-              </td>
-              <td colspan="3">
-                <strong>GENDER: </strong>{{ fetched_data.student_in_class.student.user.gender.toUpperCase() }}
+              <td>
+                <strong>CLASS TEACHER: </strong> {{ fetched_data.student_in_class.class_teacher.staff.user.last_name+', '+fetched_data.student_in_class.class_teacher.staff.user.first_name }}
               </td>
             </tr>
             <tr>
               <td>
+                <strong>ID: </strong>{{ fetched_data.student_in_class.student.registration_no }}
+              </td>
+              <td>
                 <strong>CLASS: </strong> {{ fetched_data.student_in_class.class_teacher.c_class.name }}
               </td>
-              <td colspan="2">
-                <strong>NO. IN CLASS: </strong>{{ fetched_data.no_in_class }}
-              </td>
-              <td colspan="3">
+              <!-- <td colspan="3">
                 <strong>SESSION: </strong>{{ fetched_data.this_session.name }}
               </td>
               <td colspan="3">
                 <strong>TERM: </strong>{{ fetched_data.this_term.name }} Term
-              </td>
+              </td> -->
             </tr>
             <tr v-if="publishedResults.length > 0">
-
-              <td :colspan="checkColSpan(fetched_data.result_settings)">
+              <td>
+                <strong>GENDER: </strong>{{ fetched_data.student_in_class.student.user.gender.toUpperCase() }}
+              </td>
+              <td>
+                <strong>CLASS SIZE: </strong>{{ fetched_data.no_in_class }}
+              </td>
+              <!-- <td :colspan="checkColSpan(fetched_data.result_settings)">
                 <strong>CLASS TEACHER: </strong> {{ fetched_data.student_in_class.class_teacher.staff.user.last_name+', '+fetched_data.student_in_class.class_teacher.staff.user.first_name }}
               </td>
 
@@ -126,12 +138,37 @@
                 colspan="2"
               >
                 <strong>POSITION: </strong>{{ fetched_data.position }}
-              </td>
+              </td> -->
             </tr>
+            <tr v-if="fetched_data.term_spec==='full'">
+              <td colspan="3">
+                <div
+                  align="center"
+                >
+                  <strong>ATTENDANCE REPORT</strong>
+                </div>
+              </td>
 
+            </tr>
+            <tr v-if="fetched_data.term_spec==='full'">
+              <td>
+                <strong>Days School Opened: {{ (fetched_data.class_attendance) ? fetched_data.class_attendance.opened : null }}</strong>
+              </td>
+              <td><strong>Days Present: {{ (fetched_data.class_attendance) ? fetched_data.class_attendance.present : null }}</strong>
+              </td>
+              <td><strong>Days Absent: {{ (fetched_data.class_attendance) ? fetched_data.class_attendance.absent : null }}</strong>
+              </td>
+
+            </tr>
           </thead>
 
         </table>
+        <div
+          align="center"
+          class="report"
+        >
+          <strong>ACADEMIC RECORDS</strong>
+        </div>
         <!--result table-->
         <half-term
           v-if="fetched_data.term_spec==='half'"
@@ -291,9 +328,6 @@ export default {
   font-family: 'lucida calligraphy', sans-serif;
   background: transparent !important;
   }
-.report{
-  padding: 5pt;
-}
 .col-xs-9, .col-xs-3, .col-xs-8, .col-xs-4 {
   padding-right: 0px;
   padding-left: 0px;

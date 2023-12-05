@@ -96,7 +96,8 @@
             </div>
           </v-client-table>
         </el-card> -->
-        <timeline />
+        <!-- <timeline /> -->
+        <teacher-routine view-type="time-table" />
       </b-col>
       <b-col
         :lg="6"
@@ -106,7 +107,7 @@
         :xs="12"
       >
 
-        <teacher-routine view-type="time-table" />
+        <!-- <teacher-routine view-type="time-table" /> -->
         <div style="max-height: 1000px; overflow: auto; margin-top: 10px;">
           <events />
         </div>
@@ -125,7 +126,7 @@ import StatisticCardHorizontal from '@core/components/statistics-cards/Statistic
 import AnalyticsCongratulation from '@/views/dashboard/analytics/AnalyticsCongratulation.vue'
 import Resource from '@/api/resource'
 import TeacherRoutine from '@/views/modules/time-table/TeacherRoutine.vue'
-import Timeline from '@/views/modules/user/Timeline.vue'
+// import Timeline from '@/views/modules/user/Timeline.vue'
 import Events from '@/views/modules/news-and-event/Calendar.vue'
 
 import SubjectPerformanceReport from './SubjectPerformanceReport.vue'
@@ -135,7 +136,7 @@ const dataAnalysisResource = new Resource('dashboard/teacher')
 
 export default {
   components: {
-    BRow, BCol, StatisticCardHorizontal, SubjectPerformanceReport, AnalyticsCongratulation, TeacherRoutine, Timeline, Events,
+    BRow, BCol, StatisticCardHorizontal, SubjectPerformanceReport, AnalyticsCongratulation, TeacherRoutine, Events,
   },
   data() {
     return {

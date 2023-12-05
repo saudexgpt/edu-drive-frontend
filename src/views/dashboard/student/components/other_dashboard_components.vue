@@ -11,7 +11,7 @@
         <assignments />
         <student-routine />
         <br>
-        <timeline :title="Timeline" />
+        <!-- <timeline :title="Timeline" /> -->
       </el-col>
 
       <el-col
@@ -124,7 +124,7 @@ import {
   BAvatar,
 } from 'bootstrap-vue'
 import StudentRoutine from '@/views/modules/time-table/StudentRoutine.vue'
-import Timeline from '@/views/modules/Notifications.vue'
+// import Timeline from '@/views/modules/Notifications.vue'
 import Assignments from './Assignments.vue'
 
 export default {
@@ -135,7 +135,7 @@ export default {
     BAvatar,
     BBadge,
     StudentRoutine,
-    Timeline,
+    // Timeline,
     Assignments,
   },
   props: { dashboardData: { type: Object, default: () => (null) } },

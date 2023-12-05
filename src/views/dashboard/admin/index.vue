@@ -12,7 +12,7 @@
         />
       </b-col>
     </b-row>
-    <b-row class="match-height">
+    <!-- <b-row class="match-height">
       <b-col lg="7">
 
         <timeline />
@@ -22,7 +22,7 @@
           <events />
         </div>
       </b-col>
-    </b-row>
+    </b-row> -->
 
   </div>
 </template>
@@ -32,8 +32,8 @@ import {
 } from 'bootstrap-vue'
 import DataAnalysis from './components/data_analysis.vue'
 import AdminChart from './components/admin_report_chart.vue'
-import Timeline from '@/views/modules/user/Timeline.vue'
-import Events from '@/views/modules/news-and-event/Calendar.vue'
+// import Timeline from '@/views/modules/user/Timeline.vue'
+// import Events from '@/views/modules/news-and-event/Calendar.vue'
 // import Revenue from './components/charts/Revenue.vue'
 // import Debtors from './components/charts/Debtors.vue'
 
@@ -45,8 +45,8 @@ export default {
     BCol,
     DataAnalysis,
     AdminChart,
-    Timeline,
-    Events,
+    // Timeline,
+    // Events,
     // Revenue,
     // Debtors,
   },

@@ -200,7 +200,27 @@
             />
           </th>
         </tr>
-
+        <tr>
+          <th>
+            Display Mid-Term Assessment Column on Result Sheet?
+          </th>
+          <th>
+            <el-tooltip
+              :content="'Current Value: ' + resultSettingForm.display_midterm_assessment_on_result_sheet"
+              placement="top"
+            >
+              <el-switch
+                v-model="resultSettingForm.display_midterm_assessment_on_result_sheet"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-value="yes"
+                inactive-value="no"
+                active-text="Yes"
+                inactive-text="No"
+              />
+            </el-tooltip>
+          </th>
+        </tr>
         <tr>
           <th>
             Display Students' Class Position on Result Sheet?
@@ -359,6 +379,27 @@
             >
               <el-switch
                 v-model="resultSettingForm.display_grade"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-value="yes"
+                inactive-value="no"
+                active-text="Yes"
+                inactive-text="No"
+              />
+            </el-tooltip>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            Display Cummulative Score on Result Sheet?
+          </th>
+          <th>
+            <el-tooltip
+              :content="'Current Value: ' + resultSettingForm.display_cummulative_score_on_result_sheet"
+              placement="top"
+            >
+              <el-switch
+                v-model="resultSettingForm.display_cummulative_score_on_result_sheet"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
                 active-value="yes"
@@ -608,6 +649,8 @@ export default {
         formData.append('display_student_subject_average', param.display_student_subject_average)
         formData.append('display_student_class_average', param.display_student_class_average)
         formData.append('display_grade', param.display_grade)
+        formData.append('display_cummulative_score_on_result_sheet', param.display_cummulative_score_on_result_sheet)
+        formData.append('display_midterm_assessment_on_result_sheet', param.display_midterm_assessment_on_result_sheet)
         formData.append('display_student_behovior_and_skill_rating', param.display_student_behovior_and_skill_rating)
         formData.append('display_logo_for_result_background', param.display_logo_for_result_background)
         formData.append('display_school_name_on_result', param.display_school_name_on_result)

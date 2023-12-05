@@ -47,6 +47,12 @@
 
           <student-in-class-table :students-in-class="students_in_class" />
         </el-tab-pane>
+        <el-tab-pane label="Attendance">
+          <attendance
+            :students-in-class="students_in_class"
+            :current-term-id="current_term_id"
+          />
+        </el-tab-pane>
         <el-tab-pane label="Behavior/Skill Ratings">
           <behavior-skill-settings :students-in-class="students_in_class" />
         </el-tab-pane>
@@ -59,6 +65,7 @@ import { BCard, BAvatar } from 'bootstrap-vue'
 import Resource from '@/api/resource'
 import StudentInClassTable from '@/views/modules/user/students/partials/StudentInClassTable.vue'
 import BehaviorSkillSettings from './BehaviorSkillSettings.vue'
+import Attendance from './Attendance.vue'
 
 const teacherClassesResource = new Resource('school-setup/class-teacher-class')
 const classStudentsResource = new Resource('school-setup/get-class-students')
@@ -69,6 +76,7 @@ export default {
     BAvatar,
     StudentInClassTable,
     BehaviorSkillSettings,
+    Attendance,
   },
   data() {
     return {
@@ -76,6 +84,7 @@ export default {
       students_in_class: [],
       load: false,
       teacher: '',
+      current_term_id: null,
     }
   },
   created() {
@@ -98,6 +107,7 @@ export default {
       classStudentsResource.list({ class_teacher_id: classTeacherId })
         .then(response => {
           app.students_in_class = response.students_in_class
+          app.current_term_id = response.current_term.id
           app.load = false
         })
     },

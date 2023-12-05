@@ -171,6 +171,7 @@
 import {
   BFormGroup, BFormInput, BAvatar,
 } from 'bootstrap-vue'
+import { avatarText } from '@core/utils/filter'
 // import Resource from '@/api/resource'
 import Helper from '@/api/helper'
 
@@ -196,7 +197,11 @@ export default {
       // fetched_data : {}
     }
   },
-
+  computed: {
+    baseServerUrl() {
+      return this.$store.getters.baseServerUrl
+    },
+  },
   created() {
     // this.fetchBroadSheet()
     this.filtered_students_in_class = this.broadSheetData.students_in_class
@@ -210,6 +215,7 @@ export default {
     }
   }, */
   methods: {
+    avatarText,
     // fetchBroadSheet() {
     //   const app = this
     //   const param = app.params

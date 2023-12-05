@@ -533,7 +533,7 @@
         v-if="isUploadPhotoSidebarActive"
         v-model="isUploadPhotoSidebarActive"
         :user="selectedUser"
-        @save="updatePhoto"
+        @save="reloadTable"
       />
     </div>
     <div v-else>
