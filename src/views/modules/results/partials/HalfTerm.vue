@@ -23,142 +23,139 @@
 
       <el-row :gutter="10">
         <el-col :span="19">
-          <table
-            class="resultTable table-bordered"
+          <div
+            v-if="publishedResults.length > 0"
           >
-            <thead>
-              <tr>
-                <th>
-                  SUBJECTS
-                </th>
-                <th>
-                  Score
-                </th>
-                <th v-if="fetchData.result_settings.display_grade === 'yes'">
-                  <span>GRADE</span>
-                </th>
-                <th v-if="fetchData.result_settings.display_highest_score === 'yes'">
-                  <span>HIGHEST</span>
-                </th>
-                <th v-if="fetchData.result_settings.display_lowest_score === 'yes'">
-                  <span>LOWEST</span>
-                </th>
-                <th v-if="fetchData.result_settings.display_student_subject_average === 'yes'">
-                  <span>AVERAGE</span>
-                </th>
-                <th v-if="fetchData.result_settings.display_student_subject_position === 'yes'">
-                  <span>POSITION</span>
-                </th>
-                <th>
-                  <div>
-                    REMARKS
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              v-if="publishedResults.length > 0"
+
+            <table
+              class="resultTable table-bordered"
             >
-              <tr
-                v-for="(student_result, index) in publishedResults"
-                :key="index"
-              >
-                <template v-if="student_result.total">
-                  <td>{{ student_result.subject_teacher.subject.name }}</td>
-                  <td><strong>{{ student_result.total }}</strong></td>
-                  <td>
-                    {{ student_result.result_grade }}
-                  </td>
-                  <!-- <td
+              <thead>
+                <tr>
+                  <th>
+                    SUBJECTS
+                  </th>
+                  <th>
+                    Score
+                  </th>
+                  <th v-if="fetchData.result_settings.display_grade === 'yes'">
+                    <span>GRADE</span>
+                  </th>
+                  <th v-if="fetchData.result_settings.display_highest_score === 'yes'">
+                    <span>HIGHEST</span>
+                  </th>
+                  <th v-if="fetchData.result_settings.display_lowest_score === 'yes'">
+                    <span>LOWEST</span>
+                  </th>
+                  <th v-if="fetchData.result_settings.display_student_subject_average === 'yes'">
+                    <span>AVERAGE</span>
+                  </th>
+                  <th v-if="fetchData.result_settings.display_student_subject_position === 'yes'">
+                    <span>POSITION</span>
+                  </th>
+                  <th>
+                    <div>
+                      REMARKS
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(student_result, index) in publishedResults"
+                  :key="index"
+                >
+                  <template v-if="student_result.total">
+                    <td>{{ student_result.subject_teacher.subject.name }}</td>
+                    <td><strong>{{ student_result.total }}</strong></td>
+                    <td>
+                      {{ student_result.result_grade }}
+                    </td>
+                    <!-- <td
                 v-if="fetchData.result_settings.display_grade === 'yes'"
                 :style="'background:'+student_result.color+'; color: #000;'"
               >
                 {{ student_result.result_grade }}
               </td> -->
-                  <td v-if="fetchData.result_settings.display_highest_score === 'yes'">
-                    {{ (student_result.total) ? student_result.subject_highest_score : '' }}
-                  </td>
-                  <td v-if="fetchData.result_settings.display_lowest_score === 'yes'">
-                    {{ (student_result.total) ? student_result.subject_lowest_score : '' }}
-                  </td>
-                  <td v-if="fetchData.result_settings.display_student_subject_average === 'yes'">
-                    {{ (student_result.total) ? student_result.subject_class_average : '' }}
-                  </td>
-                  <td v-if="fetchData.result_settings.display_student_subject_position === 'yes'">
-                    {{ (student_result.total) ? student_result.position : '' }}
-                  </td>
-                  <td>{{ (student_result.remark != 'Undefined') ? student_result.remark : '' }}</td>
+                    <td v-if="fetchData.result_settings.display_highest_score === 'yes'">
+                      {{ (student_result.total) ? student_result.subject_highest_score : '' }}
+                    </td>
+                    <td v-if="fetchData.result_settings.display_lowest_score === 'yes'">
+                      {{ (student_result.total) ? student_result.subject_lowest_score : '' }}
+                    </td>
+                    <td v-if="fetchData.result_settings.display_student_subject_average === 'yes'">
+                      {{ (student_result.total) ? student_result.subject_class_average : '' }}
+                    </td>
+                    <td v-if="fetchData.result_settings.display_student_subject_position === 'yes'">
+                      {{ (student_result.total) ? student_result.position : '' }}
+                    </td>
+                    <td>{{ (student_result.remark != 'Undefined') ? student_result.remark : '' }}</td>
                   <!--<td>{{student_result.comments}}</td>-->
-                </template>
-              </tr>
-              <tr>
-                <td
-                  rowspan="2"
-                  colspan="2"
-                >
-                  <strong>Average Performance</strong>
-                </td>
-                <td colspan="2">
-                  <strong>Learner Average</strong>
-                </td>
-                <td colspan="2">
-                  <strong>Learner GPA</strong>
-                </td>
-                <td colspan="2">
-                  <strong>Class Average</strong>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {{ fetchData.student_average }}
-                </td>
-                <td colspan="2">
-                  {{ calculateGPA(fetchData.student_average) }}
-                </td>
-                <td colspan="2">
-                  {{ fetchData.class_average }}
-                </td>
-              </tr>
-              <tr>
-                <td>Class Teacher's Remark:</td>
-                <td colspan="6">
-                  <div v-if="fetchData.student_remark">
-                    {{ fetchData.student_remark.class_teacher_remark }}
-                  </div>
-                </td>
-                <td rowspan="2">
-                  <img
-                    :src="baseServerUrl +'storage/'+fetchData.result_settings.head_teacher_stamp"
-                    alt="HEAD TEACHER STAMP"
-                    class="img-polaroid"
-                    width="150"
+                  </template>
+                </tr>
+                <tr>
+                  <td
+                    rowspan="2"
+                    colspan="2"
                   >
-                </td>
-              </tr>
-              <tr>
-                <td>Principal's Comment:</td>
-                <td colspan="6">
-                  <div v-if="fetchData.student_remark">
-                    {{ fetchData.student_remark.head_teacher_remark }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              <tr>
-                <td colspan="9">
-                  <b-alert
-                    variant="danger"
-                    show
-                  >
-                    <div class="alert-body">
-                      RESULT HAS NOT BEEN PUBLISHED
+                    <strong>Average Performance</strong>
+                  </td>
+                  <td colspan="2">
+                    <strong>Learner Average</strong>
+                  </td>
+                  <td colspan="2">
+                    <strong>Learner GPA</strong>
+                  </td>
+                  <td colspan="2">
+                    <strong>Class Average</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    {{ fetchData.student_average }}
+                  </td>
+                  <td colspan="2">
+                    {{ calculateGPA(fetchData.student_average) }}
+                  </td>
+                  <td colspan="2">
+                    {{ fetchData.class_average }}
+                  </td>
+                </tr>
+                <tr v-if="fetchData.student_remark.house_parent_remark !== null && fetchData.student_remark.house_parent_remark !== ''">
+                  <td>House Parent's Remark:</td>
+                  <td colspan="7">
+                    <div>
+                      {{ fetchData.student_remark.house_parent_remark }}
                     </div>
-                  </b-alert>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Class Teacher's Remark:</td>
+                  <td colspan="6">
+                    <div v-if="fetchData.student_remark">
+                      {{ fetchData.student_remark.class_teacher_remark }}
+                    </div>
+                  </td>
+                  <td rowspan="2">
+                    <img
+                      :src="baseServerUrl +'storage/'+fetchData.result_settings.head_teacher_stamp"
+                      alt="HEAD TEACHER STAMP"
+                      class="img-polaroid"
+                      width="150"
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Principal's Comment:</td>
+                  <td colspan="6">
+                    <div v-if="fetchData.student_remark">
+                      {{ fetchData.student_remark.head_teacher_remark }}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </el-col>
         <el-col
           v-if="fetchData.result_settings.display_grade === 'yes'"
@@ -180,7 +177,7 @@
                   <td>Grade</td>
                   <td>Description</td>
                   <td>Range(%)</td>
-                  <!-- <td>Point</td> -->
+                  <td>Point</td>
                 </tr>
               </thead>
               <tbody>
@@ -191,7 +188,7 @@
                   <td>{{ grade.grade }}</td>
                   <td>{{ grade.interpretation }}</td>
                   <td>{{ grade.lower_limit + '-' + grade.upper_limit }}</td>
-                  <!-- <td>{{ grade.grade_point }}</td> -->
+                  <td>{{ grade.grade_point }}</td>
                 </tr>
 
               </tbody>
@@ -319,11 +316,8 @@
   </div>
 </template>
 <script>
-import { BAlert } from 'bootstrap-vue'
-
 export default {
   components: {
-    BAlert,
   },
   props: {
     publishedResults: {

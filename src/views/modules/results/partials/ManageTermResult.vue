@@ -62,6 +62,24 @@
       />
     </b-tab>
     <b-tab
+      v-if="checkPermission(['can manage results']) || checkRole(['house_parent'])"
+      lazy
+    >
+      <template
+        #title
+      >
+        <div class="no-print">
+          <feather-icon icon="MessageCircleIcon" />
+          <span>House Parent Remark</span>
+        </div>
+      </template>
+      <house-parent-remark
+        v-if="broadSheetData"
+        :broad-sheet-data="broadSheetData"
+        :params="params"
+      />
+    </b-tab>
+    <b-tab
       v-if="checkPermission(['can manage results'])"
       lazy
     >
@@ -70,7 +88,7 @@
       >
         <div class="no-print">
           <feather-icon icon="MessageCircleIcon" />
-          <span>Principal/Head Teacher Remark</span>
+          <span>Principal/Coordinator/Head Teacher Remark</span>
         </div>
       </template>
       <principal-remark
@@ -108,6 +126,7 @@ import checkPermission from '@/utils/permission'
 import ApproveResult from './approval/ViewRecordedResult.vue'
 import BroadSheet from './BroadSheetTable.vue'
 import ClassTeacherRemark from './ClassTeacherRemark.vue'
+import HouseParentRemark from './HouseParentRemark.vue'
 import PrincipalRemark from './PrincipalRemark.vue'
 import PrintBulkResult from './PrintBulkResult.vue'
 
@@ -119,6 +138,7 @@ export default {
     ApproveResult,
     BroadSheet,
     ClassTeacherRemark,
+    HouseParentRemark,
     PrincipalRemark,
     PrintBulkResult,
     BTab,

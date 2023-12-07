@@ -26,7 +26,7 @@
                   :src="baseServerUrl +'storage/'+fetched_data.school.logo"
                   alt="School LOGO"
                   class="img-polaroid"
-                  width="200"
+                  width="250"
                 >
                 <!--<img
                   v-if="fetched_data.result_settings.logo !== null"
@@ -43,7 +43,7 @@
                   width="200"
                 >-->
                 <br>
-                <strong v-if="fetched_data.result_settings.display_school_name_on_result === 'yes'">{{ fetched_data.school.name.toUpperCase() }}</strong><br>
+                <h4><strong v-if="fetched_data.result_settings.display_school_name_on_result === 'yes'">{{ fetched_data.school.name.toUpperCase() }}</strong></h4><br>
                 <small v-if="fetched_data.result_settings.display_school_address_on_result === 'yes'">{{ fetched_data.school.address }}</small>
                 <!-- <div
                   align="center"
@@ -57,7 +57,7 @@
                 >
                   <h3>RECORD OF ACHIEVEMENT</h3>
                   <em v-if="fetched_data.term_spec === 'half'">Mid Term</em><br>
-                  <h4><strong>{{ fetched_data.this_term.name }} Term, {{ fetched_data.this_session.name }}</strong></h4>
+                  <strong>{{ fetched_data.this_term.name }} Term, {{ fetched_data.this_session.name }}</strong>
                 </div>
               </td>
             </tr>
@@ -109,7 +109,7 @@
                 <strong>TERM: </strong>{{ fetched_data.this_term.name }} Term
               </td> -->
             </tr>
-            <tr v-if="publishedResults.length > 0">
+            <tr>
               <td>
                 <strong>GENDER: </strong>{{ fetched_data.student_in_class.student.user.gender.toUpperCase() }}
               </td>
@@ -169,6 +169,16 @@
         >
           <strong>ACADEMIC RECORDS</strong>
         </div>
+        <div v-if="resultIsNotPublished">
+          <b-alert
+            variant="danger"
+            show
+          >
+            <div class="alert-body">
+              RESULT HAS NOT BEEN PUBLISHED. THEREFORE, STUDENTS & PARENTS WILL NOT BE ABLE TO VIEW
+            </div>
+          </b-alert>
+        </div>
         <!--result table-->
         <half-term
           v-if="fetched_data.term_spec==='half'"
@@ -186,7 +196,8 @@
   </div>
 </template>
 <script>
-
+import { BAlert } from 'bootstrap-vue'
+import checkPermission from '@/utils/permission'
 import Resource from '@/api/resource'
 import FullTerm from './partials/FullTerm.vue'
 import HalfTerm from './partials/HalfTerm.vue'
@@ -199,6 +210,7 @@ const getResultStudentResult = new Resource('result/get-student-result-details')
 
 export default {
   components: {
+    BAlert,
     FullTerm,
     HalfTerm,
   },
@@ -231,10 +243,21 @@ export default {
     },
     publishedResults() {
       // return this.fetched_data.student_results
+      if (this.checkPermission(['can manage results'])) {
+        if (this.fetched_data.term_spec === 'half') {
+          return this.fetched_data.student_results.filter(i => (i.subject_teacher !== null))
+        }
+        return this.fetched_data.student_results.filter(i => (i.subject_teacher !== null))
+      }
       if (this.fetched_data.term_spec === 'half') {
         return this.fetched_data.student_results.filter(i => (i.midterm_status === 'published' && i.subject_teacher !== null))
       }
       return this.fetched_data.student_results.filter(i => (i.fullterm_status === 'published' && i.subject_teacher !== null))
+    },
+    resultIsNotPublished() {
+      const published = this.fetched_data.student_results.filter(i => (i.midterm_status === 'published'))
+
+      return published.length < 1
     },
 
   },
@@ -244,6 +267,7 @@ export default {
   },
 
   methods: {
+    checkPermission,
     checkColSpan(resultSettings) {
       let colspan = 7
       if (resultSettings.display_class_average_score === 'yes' && resultSettings.display_student_class_average === 'yes') {

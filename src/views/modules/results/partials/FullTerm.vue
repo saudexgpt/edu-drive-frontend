@@ -141,9 +141,9 @@
           <td>{{ student_result.ca2 }}</td>
           <td>{{ student_result.ca3 }}</td> -->
                     <td v-if="fetchData.result_settings.display_exam_score_only_for_full_term === 'no'">
-                      {{ (student_result.total) ? student_result.test : '' }}
+                      <strong>{{ (student_result.total) ? student_result.test : '' }}</strong>
                     </td>
-                    <td>{{ student_result.exam }}</td>
+                    <td><strong>{{ student_result.exam }}</strong></td>
                     <!-- <td
                     :style="'background:'+student_result.color+'; color: #000;'"
                   >{{ student_result.total }}</td>
@@ -153,7 +153,9 @@
                   >
                     {{ student_result.result_grade }}
                   </td> -->
-                    <td><strong>{{ student_result.total }}</strong></td>
+                    <td v-if="fetchData.result_settings.display_exam_score_only_for_full_term === 'no'">
+                      <strong>{{ student_result.total }}</strong>
+                    </td>
                     <td v-if="fetchData.result_settings.display_grade === 'yes'">
                       <strong>{{ student_result.result_grade }}</strong>
                     </td>
@@ -229,6 +231,14 @@
                     {{ fetchData.class_average }}
                   </td>
                 </tr>
+                <tr v-if="fetchData.student_remark.house_parent_remark !== null && fetchData.student_remark.house_parent_remark !== ''">
+                  <td>House Parent's Remark:</td>
+                  <td colspan="9">
+                    <div>
+                      {{ fetchData.student_remark.house_parent_remark }}
+                    </div>
+                  </td>
+                </tr>
                 <tr>
                   <td><strong>Class Teacher's Remark:</strong></td>
                   <td colspan="8">
@@ -255,16 +265,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div v-else>
-            <b-alert
-              variant="danger"
-              show
-            >
-              <div class="alert-body">
-                RESULT HAS NOT BEEN PUBLISHED
-              </div>
-            </b-alert>
           </div>
         </el-col>
         <el-col
@@ -859,11 +859,8 @@
   </div>
 </template>
 <script>
-import { BAlert } from 'bootstrap-vue'
-
 export default {
   components: {
-    BAlert,
   },
   props: {
     publishedResults: {
