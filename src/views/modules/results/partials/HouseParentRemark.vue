@@ -194,7 +194,9 @@ export default {
     // this.fetchBroadSheet()
     this.filtered_students_in_class = this.broadSheetData.students_in_class
     // sort table by average (ranking)
-    // this.sortTable(3 + this.broadSheetData.result_subjects.length)
+    setTimeout(() => {
+      this.sortTable(3 + this.broadSheetData.result_subjects.length)
+    }, 1000)
   },
   methods: {
     avatarText,
@@ -256,7 +258,7 @@ export default {
       const table = document.getElementById('myTable')
       switching = true
       // Set the sorting direction to ascending:
-      dir = 'asc'
+      dir = 'desc'
       /* Make a loop that will continue until
       no switching has been done: */
       while (switching) {

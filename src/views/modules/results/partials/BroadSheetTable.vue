@@ -120,7 +120,7 @@
                 <td
                   v-for="(result_detail, result_index) in student_in_class.student_result.result_details_array"
                   :key="result_index"
-                  :style="'background:'+result_detail['color']+'; color: #000;'"
+                  :style="`background: ${(result_detail) ? result_detail['color'] : transparent}; color: #000;`"
                 >
                   <span v-if="result_detail['total']">
                     {{ result_detail['total'] }}
@@ -206,7 +206,9 @@ export default {
     // this.fetchBroadSheet()
     this.filtered_students_in_class = this.broadSheetData.students_in_class
     // sort table by average (ranking)
-    // this.sortTable(3 + this.broadSheetData.result_subjects.length)
+    setTimeout(() => {
+      this.sortTable(3 + this.broadSheetData.result_subjects.length)
+    }, 1000)
   },
   /* watch: {
     fetched_data () {
@@ -269,7 +271,7 @@ export default {
       const table = document.getElementById('myTable')
       switching = true
       // Set the sorting direction to ascending:
-      dir = 'asc'
+      dir = 'desc'
       /* Make a loop that will continue until
       no switching has been done: */
       while (switching) {
